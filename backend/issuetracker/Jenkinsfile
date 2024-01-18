@@ -1,9 +1,10 @@
+#!/usr/bin/env groovy
 pipeline {
-    agent { docker { image 'maven:3.9.6-eclipse-temurin-17-alpine' } }
+    agent { dockerfile true }
     stages {
         stage('build') {
             steps {
-                sh 'mvn --version'
+                sh 'mvn package'
             }
         }
     }
