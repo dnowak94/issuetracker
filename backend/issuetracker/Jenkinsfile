@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                sh 'ls backend/issuetracker/target'
+                sh 'ls target/'
             }
         }
     }
