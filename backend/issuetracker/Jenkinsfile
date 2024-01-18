@@ -1,13 +1,25 @@
 #!/usr/bin/env groovy
 pipeline {
     agent any
-    options {
-        checkoutToSubdirectory('backend/issuetracker')
+    environment {
+        DB_HOST = 'localhost'
+        DB_PORT = 3306
     }
     stages {
-        stage('build') {
+        stage('Build') {
             steps {
+                sh 'cd backend/issuetracker'
                 sh 'mvn -DskipTests clean package'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
+                }
             }
         }
     }
