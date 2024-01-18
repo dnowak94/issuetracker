@@ -2,7 +2,7 @@
 pipeline {
     agent any
     options {
-        options { checkoutToSubdirectory('backend/issuetracker') }
+        checkoutToSubdirectory('backend/issuetracker')
     }
     stages {
         stage('build') {
