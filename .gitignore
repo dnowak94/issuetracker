@@ -74,10 +74,19 @@ buildNumber.properties
 *.vsix
 
 ### IntelliJ IDEA ###
-.idea
+.idea/
 *.iws
 *.iml
 *.ipr
+
+# Angular
+.angular/cache/
+.sass-cache/
+connect.lock
+coverage
+libpeerconnection.log
+testem.log
+typings
 
 # Other
 data/
