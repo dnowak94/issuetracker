@@ -1,0 +1,20 @@
+<div class="col">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th>Issue</th>
+        <th>created at</th>
+        <th>updated at</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let issue of issues">
+        <th scope="row">{{issue.id}}</th>
+        <td>{{issue.title}}</td>
+        <td>{{issue.createdAt | date:'short'}}</td>
+        <td>{{issue.updatedAt | date:'short'}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
