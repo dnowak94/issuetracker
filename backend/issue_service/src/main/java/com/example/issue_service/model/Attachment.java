@@ -1,4 +1,4 @@
-package com.example.issuetracker.model;
+package com.example.issue_service.model;
 
 import jakarta.persistence.*;
 
@@ -10,7 +10,7 @@ public class Attachment {
     private Long id;
 
     @Lob
-    @Column(name ="attachment", columnDefinition = "BLOB")
+    @Column(name ="attachment", columnDefinition = "BYTEA")
     private byte[] attachment;
 	@ManyToOne
     @JoinColumn(name = "issue_id",

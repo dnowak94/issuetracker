@@ -1,18 +1,19 @@
-package com.example.issuetracker.model;
-
-import java.time.LocalDateTime;
+package com.example.issue_service.model;
 
 import jakarta.persistence.*;
-
-import jakarta.annotation.Generated;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity(name = "Issue")
-public class Issue {
+@Table(name = "issue")
+public class Issue implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -23,6 +24,10 @@ public class Issue {
     @Column(name ="description")
     private String description;
 
+    @Column(name = "status")
+    @Enumerated(EnumType.ORDINAL)
+    private Status status;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -31,6 +36,7 @@ public class Issue {
         this.description = "";
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
+        this.status = Status.UNRESOLVED;
     }
 
     public Issue(String title, String description) {

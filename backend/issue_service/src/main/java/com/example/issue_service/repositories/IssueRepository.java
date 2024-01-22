@@ -1,7 +1,6 @@
-package com.example.issuetracker.repositories;
+package com.example.issue_service.repositories;
 
-import com.example.issuetracker.model.Issue;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.example.issue_service.model.Issue;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

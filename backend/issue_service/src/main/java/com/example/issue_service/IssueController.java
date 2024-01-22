@@ -1,7 +1,7 @@
-package com.example.issuetracker;
+package com.example.issue_service;
 
-import com.example.issuetracker.model.Issue;
-import com.example.issuetracker.repositories.IssueRepository;
+import com.example.issue_service.model.Issue;
+import com.example.issue_service.repositories.IssueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
