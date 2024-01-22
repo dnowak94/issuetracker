@@ -20,6 +20,26 @@
 hs_err_pid*
 replay_pid*
 
+# Angular
+.angular/cache
+.sass-cache/
+connect.lock
+coverage
+libpeerconnection.log
+testem.log
+typings/
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Compiled output
+dist/
+tmp/
+out-tsc/
+bazel-out/
+
 # Maven
 target/
 pom.xml.tag
@@ -64,4 +84,8 @@ data/
 
 # Draw IO
 *.bkp
+
+# System files
+.DS_Store
+Thumbs.db
 
