@@ -13,6 +13,7 @@ import java.util.Optional;
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON;
 
 @Controller
+@CrossOrigin
 @RequestMapping(path="/issues")
 public class IssueController {
     @Autowired
