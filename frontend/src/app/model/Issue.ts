@@ -36,4 +36,11 @@ export class Issue {
         this._createdAt = value;
     }
 
+    public constructor(title:string, description:string) {
+        this._id = 0;
+        this._title = title;
+        this._description = description;
+        this._createdAt = new Date();
+        this._updatedAt = new Date();
+    }
 }

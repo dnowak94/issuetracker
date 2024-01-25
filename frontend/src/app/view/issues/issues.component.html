@@ -1,4 +1,7 @@
 <div class="col">
+  <a routerLink="/issues/create" class="btn btn-primary">
+    <ng-icon name="bootstrapJournalPlus"></ng-icon>
+  </a>
   <table class="table">
     <thead>
       <tr>
@@ -6,14 +9,20 @@
         <th>Issue</th>
         <th>created at</th>
         <th>updated at</th>
+        <th>Operations</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let issue of issues">
         <th scope="row">{{issue.id}}</th>
-        <td>{{issue.title}}</td>
+        <td><a class="btn" routerLink="/issues/{{issue.id}}">{{issue.title}}</a></td>
         <td>{{issue.createdAt | date:'short'}}</td>
         <td>{{issue.updatedAt | date:'short'}}</td>
+        <td>
+          <a class="btn" routerLink="/issues/{{issue.id}}">
+            <ng-icon name="bootstrapPencil"></ng-icon>
+          </a>
+        </td>
       </tr>
     </tbody>
   </table>

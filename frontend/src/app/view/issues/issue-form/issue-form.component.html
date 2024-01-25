@@ -1,0 +1,19 @@
+<form #issueForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+    <div class="form-group">
+        <div class="form-group">
+            <label for="issueTitle" class="form-label">Title</label>
+            <input type="text" class="form-control" id="issueTitle" name="title" [(ngModel)]="issue.title">
+        </div>
+        <div class="form-group">
+            <label for="issueDescription" class="form-label">Description</label>
+            <textarea class="form-control" name="description" id="issueDescription" rows="3" [(ngModel)]="issue.description"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="issueAttachment" class="form-label">Attachment</label>
+            <input class="form-control" type="file" id="issueAttachment">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-success" [disabled]="!issueForm.form.valid">Submit</button>
+        </div>
+    </div>
+</form>
