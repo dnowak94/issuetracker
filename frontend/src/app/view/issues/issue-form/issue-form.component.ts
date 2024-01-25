@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Optional } from '@angular/core';
 import { Issue } from '../../../model/Issue';
-import { FormsModule, NgModel } from '@angular/forms';
+import { FormsModule, NgForm, NgModel } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { IssuesService } from '../../../services/issues.service';
@@ -33,10 +33,12 @@ export class IssueFormComponent implements OnInit {
     }
   }
 
-  onSubmit() {
-    if (this.issue) {
+  onSubmit(form:NgForm) {
+    if (form.value) {
+      this.issue.title = form.value.title;
+      this.issue.description = form.value.description;
       this.issuesService.updateIssue(this.issue)
-        .subscribe(() => console.log("issue with id=", this.issue?.id, " updated."));
+        .subscribe(() => console.log("issue with id=", this.issue.id, " updated."));
     }
   }
 }

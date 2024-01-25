@@ -27,7 +27,7 @@ export class IssuesService {
       );
   }
   updateIssue(issue: Issue): Observable<any> {
-    return this.http.put(`${environment.ISSUES_URL}/${issue.id}`, issue, this.httpOptions)
+    return this.http.put(`${environment.ISSUES_URL}`, issue, this.httpOptions)
       .pipe(
         tap(_ => console.log("save issue:", JSON.stringify(issue)))
       );
