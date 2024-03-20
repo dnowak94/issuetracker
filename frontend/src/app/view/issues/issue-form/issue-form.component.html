@@ -1,19 +1,24 @@
-<form #issueForm="ngForm" (ngSubmit)="onSubmit(issueForm)" novalidate>
+<form *ngIf="!loading" [formGroup]="issueForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
         <div class="form-group">
             <label for="issueTitle" class="form-label">Title</label>
-            <input type="text" class="form-control" id="issueTitle" name="title" [(ngModel)]="issue.title">
+            <input type="text" class="form-control" id="issueTitle" name="title" formControlName="title">
+            <div *ngIf="submitted && f.title.errors" class="alert alert-danger" role="alert">
+                Title is required!
+            </div>  
         </div>
         <div class="form-group">
             <label for="issueDescription" class="form-label">Description</label>
-            <textarea class="form-control" name="description" id="issueDescription" rows="3" [(ngModel)]="issue.description"></textarea>
+            <textarea class="form-control" name="description" id="issueDescription" rows="3" formControlName="description"></textarea>
         </div>
         <div class="form-group">
             <label for="issueAttachment" class="form-label">Attachment</label>
-            <input class="form-control" type="file" id="issueAttachment">
+            <input class="form-control" type="file" id="issueAttachment" name="attachments" formControlName="attachments">
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-success" [disabled]="!issueForm.form.valid">Submit</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!issueForm!.valid">Submit</button>
         </div>
     </div>
 </form>
+
+<pre>{{ issueForm!.value | json }}</pre>
