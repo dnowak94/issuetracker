@@ -13,6 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './issue-form.component.scss'
 })
 export class IssueFormComponent implements OnInit {
+  @Input() id?: string;
   @Input() issue:Issue | undefined;
   issueForm = this.formBuilder.group({
     id: [0],
@@ -27,7 +28,7 @@ export class IssueFormComponent implements OnInit {
   title!: string;
   
 
-  constructor(private route: ActivatedRoute,
+  constructor(
     private router:Router,
     private issuesService: IssuesService, 
     private formBuilder: FormBuilder
@@ -41,9 +42,9 @@ export class IssueFormComponent implements OnInit {
   get f() { return this.issueForm.controls; }
 
   private getIssue():void {
-    let paramId = this.route.snapshot.paramMap.get('id');
-    if (paramId !== null) {
-      let id = Number(paramId);
+    
+    if (this.id !== null) {
+      let id = Number(this.id);
       this.issuesService.getIssue(id)
         .subscribe(issue => {
           this.issueForm.patchValue(issue);
@@ -53,7 +54,7 @@ export class IssueFormComponent implements OnInit {
   }
 
   private saveIssue() {
-    return this.route.snapshot.paramMap.get('id') === null
+    return this.id      
       ? this.issuesService.createIssue(this.issueForm.value)
       : this.issuesService.updateIssue(this.issueForm.value);
   }
