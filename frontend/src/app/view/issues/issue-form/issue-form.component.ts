@@ -1,44 +1,76 @@
 import { Component, Input, OnInit, Optional } from '@angular/core';
 import { Issue } from '../../../model/Issue';
-import { FormsModule, NgForm, NgModel } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { IssuesService } from '../../../services/issues.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-issue-form',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './issue-form.component.html',
   styleUrl: './issue-form.component.scss'
 })
 export class IssueFormComponent implements OnInit {
-  issue: Issue = new Issue("", "");
+  @Input() issue:Issue | undefined;
+  issueForm = this.formBuilder.group({
+    id: [0],
+    title: ['', Validators.required],
+    description: [''],
+    createdAt: [new Date()],
+    updatedAt: [new Date()]
+  });
+
+  loading:boolean = false;
+  submitted:boolean = false;
+  title!: string;
+  
+
   constructor(private route: ActivatedRoute,
-    private issuesService: IssuesService
-  ) { }
+    private router:Router,
+    private issuesService: IssuesService, 
+    private formBuilder: FormBuilder
+  ) {
+  }
 
   ngOnInit(): void {
     this.getIssue();
   }
 
-  getIssue(): void {
-    // if id in parameters then get issue by id
+  get f() { return this.issueForm.controls; }
+
+  private getIssue():void {
     let paramId = this.route.snapshot.paramMap.get('id');
-    if (paramId) {
+    if (paramId !== null) {
       let id = Number(paramId);
       this.issuesService.getIssue(id)
-        .subscribe(issue => this.issue = issue);
+        .subscribe(issue => {
+          this.issueForm.patchValue(issue);
+          this.loading = false;
+        });
     }
   }
 
-  onSubmit(form:NgForm) {
-    if (form.value) {
-      this.issue.title = form.value.title;
-      this.issue.description = form.value.description;
-      this.issuesService.updateIssue(this.issue)
-        .subscribe(() => console.log("issue with id=", this.issue.id, " updated."));
+  private saveIssue() {
+    return this.route.snapshot.paramMap.get('id') === null
+      ? this.issuesService.createIssue(this.issueForm.value)
+      : this.issuesService.updateIssue(this.issueForm.value);
+  }
+
+  onSubmit() {
+    this.submitted = true;
+    if (this.issueForm.valid) {
+      this.saveIssue()
+      .subscribe({
+        next: () => {
+          console.log('Issue saved: ', JSON.stringify(this.issueForm.value));
+          this.router.navigateByUrl('/issues');
+        },
+        error: error => {
+          console.log('Issue save error: ', error);          
+        }
+      });
     }
   }
 }
