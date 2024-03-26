@@ -2,7 +2,7 @@
 ## Getting Started
 ### build backend
 ```
-cd backend
+cd backend/issue_service
 ./build.sh
 ```
 ### Run frontend
