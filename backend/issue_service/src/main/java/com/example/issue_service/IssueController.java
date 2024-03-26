@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON;
@@ -38,6 +39,7 @@ public class IssueController {
     @PutMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void update(@RequestBody Issue issue) {
+        issue.setUpdatedAt(LocalDateTime.now());
         this.issueRepository.save(issue);
     }
 }

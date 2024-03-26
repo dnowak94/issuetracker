@@ -17,7 +17,10 @@ public class IssuetrackerApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/issues").allowedOrigins("http://localhost:4200");
+
+				registry.addMapping("/issues/**")
+						.allowedOrigins("http://localhost:4200")
+						.allowedMethods("GET", "POST", "PUT");
 			}
 		};
 	}
