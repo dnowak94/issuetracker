@@ -40,6 +40,17 @@ tmp/
 out-tsc/
 bazel-out/
 
+# Compiled output
+dist/
+tmp/
+out-tsc/
+bazel-out/
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
 # Maven
 target/
 pom.xml.tag
@@ -74,6 +85,7 @@ buildNumber.properties
 *.vsix
 
 ### IntelliJ IDEA ###
+.idea/
 .idea/
 *.iws
 *.iml
