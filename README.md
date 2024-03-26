@@ -2,13 +2,14 @@
 ## Getting Started
 ### build backend
 ```
-cd backend/issue_service
+cd backend
 ./build.sh
 ```
 ### Run frontend
 ``` 
 cd frontend
-ng serve
+npm install
+ng serve --open
 ```
 ## Architecture
 ![Context Map](/context_map.svg "Context Map")
