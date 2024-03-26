@@ -7,10 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Optional;
-
-import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON;
 
 @Controller
 @RequestMapping(path="/issues")
@@ -39,5 +36,11 @@ public class IssueController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void update(@RequestBody Issue issue) {
         this.issueRepository.save(issue);
+    }
+
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void delete(@PathVariable long id) {
+        this.issueRepository.deleteById(id);
     }
 }
