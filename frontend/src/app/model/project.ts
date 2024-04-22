@@ -10,22 +10,8 @@
  * Do not edit the class manually.
  */
 
-export interface Issue { 
+export interface Project { 
     id?: number;
-    title?: string;
+    name: string;
     description?: string;
-    /**
-     * Issue Status
-     */
-    status?: Issue.StatusEnum;
-    createdAt?: Date;
-    updatedAt?: Date;
-}
-export namespace Issue {
-    export type StatusEnum = 'unresolved' | 'resolved' | 'work_in_progress';
-    export const StatusEnum = {
-        Unresolved: 'unresolved' as StatusEnum,
-        Resolved: 'resolved' as StatusEnum,
-        WorkInProgress: 'work_in_progress' as StatusEnum
-    };
 }

@@ -10,22 +10,22 @@
  * Do not edit the class manually.
  */
 
-export interface Issue { 
+export interface Task { 
     id?: number;
     title?: string;
     description?: string;
     /**
-     * Issue Status
+     * Tasks Status
      */
-    status?: Issue.StatusEnum;
+    status?: Task.StatusEnum;
     createdAt?: Date;
     updatedAt?: Date;
 }
-export namespace Issue {
-    export type StatusEnum = 'unresolved' | 'resolved' | 'work_in_progress';
+export namespace Task {
+    export type StatusEnum = 'todo' | 'work_in_progress' | 'done';
     export const StatusEnum = {
-        Unresolved: 'unresolved' as StatusEnum,
-        Resolved: 'resolved' as StatusEnum,
-        WorkInProgress: 'work_in_progress' as StatusEnum
+        Todo: 'todo' as StatusEnum,
+        WorkInProgress: 'work_in_progress' as StatusEnum,
+        Done: 'done' as StatusEnum
     };
 }
