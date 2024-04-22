@@ -1,4 +1,15 @@
 services:
+  issues:
+    image: issuetracker_issue_service
+    environment:
+      - SERVICE_NAME=issues
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=issuetracker
+      - DB_NAME=issuetracker
+      - DB_PASSWORD=password
+    ports:
+      - "8080:8080"
   db:
     image: postgres:16.1-alpine3.19
     environment:
@@ -16,36 +27,3 @@ services:
     restart: always
     ports:
       - 8081:8080
-  front-envoy:
-    build:
-      context: ./envoy
-    environment:
-      - ENVOY_CONFIG="./envoy-issuetracker.yaml"
-    depends_on:
-      issues-envoy:
-        condition: service_healthy
-    ports:
-    - "${PORT_PROXY:-8080}:8080"
-    - "${PORT_HTTPS:-8443}:8443"
-    - "${PORT_STATS:-8001}:8001"
-  issues-envoy:
-    build:
-      context: ./envoy
-      target: envoy-admin
-      args:
-        ENVOY_CONFIG: ./issues-envoy.yaml
-        ENVOY_ADMIN_PORT: 8001
-    depends_on:
-      issues:
-        condition: service_healthy
-  issues:
-    image: issuetracker_issue_service
-    environment:
-      - SERVICE_NAME=issues
-      - DB_HOST=db
-      - DB_PORT=5432
-      - DB_USER=issuetracker
-      - DB_NAME=issuetracker
-      - DB_PASSWORD=password
-    ports:
-      - "8080:8080"

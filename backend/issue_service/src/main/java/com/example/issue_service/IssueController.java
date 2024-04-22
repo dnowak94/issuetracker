@@ -7,12 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDateTime;
 import java.util.Optional;
-
-import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON;
-
 @Controller
 @RequestMapping(path="/issues")
 public class IssueController {
@@ -36,10 +32,20 @@ public class IssueController {
         this.issueRepository.save(issue);
     }
 
-    @PutMapping
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PutMapping(path = "/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public void update(@RequestBody Issue issue) {
         issue.setUpdatedAt(LocalDateTime.now());
         this.issueRepository.save(issue);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<String> delete(@PathVariable long id) {
+        Optional<Issue> issue = this.issueRepository.findById(id);
+        if(issue.isPresent()) {
+            this.issueRepository.deleteById(id);
+            return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<String>(String.format("issue with id=%s not found!", id), HttpStatus.NOT_FOUND);
     }
 }

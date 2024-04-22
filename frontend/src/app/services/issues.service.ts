@@ -35,16 +35,13 @@ export class IssuesService {
   }
 
   updateIssue(issue: Issue): Observable<any> {
-    return this.http.put(`${environment.ISSUES_URL}`, issue, this.httpOptions)
+    return this.http.put(`${environment.ISSUES_URL}/${issue.id}`, issue, this.httpOptions)
       .pipe(
         tap(_ => console.log("save issue:", JSON.stringify(issue)))
       );
   }
 
   delete(issue:Issue):Observable<any> {
-    return this.http.delete(`${environment.ISSUES_URL}/${issue.id}`)
-    .pipe(
-      tap (_ => console.log(`issue with id=$issue.id deleted.`))
-    );
+    return this.http.delete(`${environment.ISSUES_URL}/${issue.id}`);
   }
 }

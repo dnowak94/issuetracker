@@ -6,7 +6,7 @@ import { environment } from '../../../environments/environment';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { bootstrapJournalPlus, bootstrapPencil, bootstrapTrash } from '@ng-icons/bootstrap-icons'
 import { RouterLink } from '@angular/router';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-issues',

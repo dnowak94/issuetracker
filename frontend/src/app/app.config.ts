@@ -5,6 +5,7 @@ import localeDeExtra from '@angular/common/locales/extra/de';
 import { registerLocaleData } from '@angular/common';
 import { routes } from './app.routes';
 import { HttpClientModule } from '@angular/common/http';
+import { provideNgIconsConfig } from '@ng-icons/core';
 
 
 registerLocaleData(localeDe, localeDeExtra);
