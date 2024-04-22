@@ -3,7 +3,7 @@ import { Issue } from '../../../model/Issue';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { IssuesService } from '../../../services/issues.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-issue-form',
@@ -14,13 +14,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class IssueFormComponent implements OnInit {
   @Input() id?: string;
-  @Input() issue:Issue | undefined;
+
+  issue:Issue | undefined;
   issueForm = this.formBuilder.group({
-    id: [0],
     title: ['', Validators.required],
-    description: [''],
-    createdAt: [new Date()],
-    updatedAt: [new Date()]
+    description: ['']
   });
 
   loading:boolean = false;
@@ -42,21 +40,25 @@ export class IssueFormComponent implements OnInit {
   get f() { return this.issueForm.controls; }
 
   private getIssue():void {
-    
     if (this.id !== null) {
       let id = Number(this.id);
       this.issuesService.getIssue(id)
         .subscribe(issue => {
           this.issueForm.patchValue(issue);
+          this.issue = issue;
           this.loading = false;
         });
     }
   }
 
   private saveIssue() {
-    return this.id      
-      ? this.issuesService.createIssue(this.issueForm.value)
-      : this.issuesService.updateIssue(this.issueForm.value);
+    if (this.id !== undefined && this.id !== null) {
+      let issue:Issue = this.issueForm.value;
+      issue.createdAt = this.issue?.createdAt;
+      issue.id = Number(this.id);
+      return this.issuesService.updateIssue(issue);
+    }
+    return this.issuesService.createIssue(this.issueForm.value);
   }
 
   onSubmit() {
