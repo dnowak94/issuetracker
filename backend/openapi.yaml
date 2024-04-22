@@ -1,0 +1,456 @@
+openapi: 3.0.3
+info:
+  title: Issuetracker - OpenAPI 3.0.3
+  description: |-
+    Some useful links:
+    - [The Issuetracker repository](https://github.com/swagger-api/swagger-projectstore)
+    - [The source API definition for the projects service](https://github.com/dnowak94/issuetracker/blob/master/backend/openapi.yaml)
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: dnowak94@live.de
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: http://localhost:8080
+tags:
+  - name: projects
+    description: Access to projects
+  - name: issues
+    description: Operations on issues of a specific project
+  - name: tasks
+    description: Operations on tasks of a specific project
+paths:
+  /projects:
+    post:
+      tags:
+        - projects
+      summary: Create a new project
+      description: Add a new project
+      operationId: addProject
+      requestBody:
+        description: Create a new project
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '405':
+          description: Invalid input
+  /projects/{projectId}:
+    get:
+      tags:
+        - projects
+      summary: Find project by ID
+      description: Returns a single project
+      operationId: getProjectById
+      parameters:
+        - name: projectId
+          in: path
+          description: ID of project to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: project not found
+    put:
+      tags:
+        - projects
+      summary: Updates a project with form data
+      description: ''
+      operationId: updateProjectWithForm
+      parameters:
+        - name: projectId
+          in: path
+          description: ID of project that needs to be updated
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Updates a project
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+        required: true
+      responses:
+        '405':
+          description: Invalid input
+    delete:
+      tags:
+        - projects
+      summary: Deletes a project
+      description: delete a project
+      operationId: deleteproject
+      parameters:
+        - name: projectId
+          in: path
+          description: project id to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '400':
+          description: Invalid project value
+  /projects/{projectId}/issues:
+    get:
+      tags:
+        - issues
+      summary: lists all issues of the project with the specified id
+      operationId: getIssues
+      parameters:
+        - name: projectId
+          in: path
+          description: ID of project to get issues from
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Issue'
+    post:
+      tags:
+        - issues
+      summary: Create an issue for a project
+      description: Create a new issue for a project
+      operationId: createIssue
+      parameters:
+        - name: projectId
+          in: path
+          description: ID of project to get issues from
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Issue'
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Issue'
+        '405':
+          description: Invalid input
+  /projects/{projectId}/issues/{issueId}:
+    get:
+      tags:
+        - issues
+      summary: get issue by id
+      operationId: getIssue
+      parameters:
+        - name: projectId
+          in: path
+          description: ID of the project
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: issueId
+          in: path
+          description: ID of the issue
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: ''
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Issue'
+    put:
+      tags:
+        - issues
+      summary: update issue information
+      operationId: updateIssue
+      parameters:
+        - name: projectId
+          in: path
+          description: ID of the project
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: issueId
+          in: path
+          description: ID of the issue
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Issue'
+      responses:
+        '200':
+          description: successfull operation
+    delete:
+      tags:
+        - issues
+      summary: Delete issue by ID
+      description: ''
+      operationId: deleteIssue
+      parameters:
+        - name: projectId
+          in: path
+          description: ID of the issue that needs to be deleted
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: issueId
+          in: path
+          description: ID of the issue that needs to be deleted
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: issue deleted successfully
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Issue not found
+  /projects/{projectId}/tasks:
+    get:
+      tags:
+        - tasks
+      summary: lists all issues of the project with the specified id
+      operationId: getTasks
+      parameters:
+        - name: projectId
+          in: path
+          description: ID of project to get tasks from
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+    post:
+      tags:
+        - tasks
+      summary: Create an issue for a project
+      description: Create a new issue for a project
+      operationId: createTask
+      parameters:
+        - name: projectId
+          in: path
+          description: ID of project to get issues from
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        '201':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '405':
+          description: Invalid input
+  /projects/{projectId}/tasks/{taskId}:
+    get:
+      tags:
+        - tasks
+      summary: get task by id
+      operationId: getTask
+      parameters:
+        - name: projectId
+          in: path
+          description: ID of the project
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: taskId
+          in: path
+          description: ID of the task
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: ''
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Task'
+    put:
+      tags:
+        - tasks
+      summary: update task information
+      operationId: updateTask
+      parameters:
+        - name: projectId
+          in: path
+          description: ID of the project
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: taskId
+          in: path
+          description: ID of the task
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        '200':
+          description: ''
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Task'
+    delete:
+      tags:
+        - tasks
+      summary: Delete task by ID
+      description: ''
+      operationId: deleteTask
+      parameters:
+        - name: projectId
+          in: path
+          description: ID of the issue that needs to be deleted
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: taskId
+          in: path
+          description: ID of the task that needs to be deleted
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: task deleted successfully
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Task not found
+components:
+  schemas:
+    Issue:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          description: Issue Status
+          example: resolved
+          enum:
+             - unresolved
+             - resolved
+             - work_in_progress
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          description: Tasks Status
+          example: todo
+          enum:
+             - todo
+             - work_in_progress
+             - done
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    Project:
+      required:
+        - name
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        name:
+          type: string
+        description:
+          type: string
