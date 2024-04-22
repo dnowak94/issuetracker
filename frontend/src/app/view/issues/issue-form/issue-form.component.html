@@ -2,18 +2,14 @@
     <div class="form-group">
         <div class="form-group">
             <label for="issueTitle" class="form-label">Title</label>
-            <input type="text" class="form-control" id="issueTitle" name="title" formControlName="title">
+            <input type="text" formControlName="title" class="form-control" id="issueTitle">
             <div *ngIf="submitted && f.title.errors" class="alert alert-danger" role="alert">
                 Title is required!
             </div>  
         </div>
         <div class="form-group">
             <label for="issueDescription" class="form-label">Description</label>
-            <textarea class="form-control" name="description" id="issueDescription" rows="3" formControlName="description"></textarea>
-        </div>
-        <div class="form-group">
-            <label for="issueAttachment" class="form-label">Attachment</label>
-            <input class="form-control" type="file" id="issueAttachment" name="attachments" formControlName="attachments">
+            <textarea formControlName="description" class="form-control" id="issueDescription" rows="3"></textarea>
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-primary" [disabled]="!issueForm!.valid">Submit</button>
