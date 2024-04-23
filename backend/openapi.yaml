@@ -143,6 +143,12 @@ paths:
           schema:
             type: integer
             format: int64
+        - name: status
+          in: query
+          description: can be used to filter by issue status
+          required: false
+          schema:
+            $ref: '#/components/schemas/IssueStatus'
       responses:
         '200':
           description: successful operation
@@ -278,6 +284,12 @@ paths:
           schema:
             type: integer
             format: int64
+        - name: status
+          in: query
+          description: for filtering by task status
+          required: false
+          schema:
+            $ref: '#/components/schemas/TaskStatus'
       responses:
         '200':
           description: successful operation
@@ -290,13 +302,13 @@ paths:
     post:
       tags:
         - tasks
-      summary: Create an issue for a project
-      description: Create a new issue for a project
+      summary: Create an task for a project
+      description: Create a new task for a project
       operationId: createTask
       parameters:
         - name: projectId
           in: path
-          description: ID of project to get issues from
+          description: ID of project to get tasks from
           required: true
           schema:
             type: integer
@@ -417,13 +429,7 @@ components:
         description:
           type: string
         status:
-          type: string
-          description: Issue Status
-          example: resolved
-          enum:
-             - unresolved
-             - resolved
-             - work_in_progress
+          $ref: '#/components/schemas/IssueStatus'
         createdAt:
           type: string
           format: date-time
@@ -442,13 +448,7 @@ components:
         description:
           type: string
         status:
-          type: string
-          description: Tasks Status
-          example: todo
-          enum:
-             - todo
-             - work_in_progress
-             - done
+          $ref: '#/components/schemas/TaskStatus'
         createdAt:
           type: string
           format: date-time
@@ -476,3 +476,17 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Task'
+    IssueStatus:
+      type: string
+      example: resolved
+      enum:
+       - unresolved
+       - resolved
+       - work_in_progress
+    TaskStatus:
+      type: string
+      example: todo
+      enum:
+         - todo
+         - work_in_progress
+         - done
