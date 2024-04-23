@@ -26,6 +26,20 @@ tags:
     description: Operations on tasks of a specific project
 paths:
   /projects:
+    get:
+      tags:
+       - projects
+      summary: get all projects
+      operationId: findAll
+      responses:
+        '200':
+          description: successfull operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
     post:
       tags:
         - projects
@@ -454,3 +468,11 @@ components:
           type: string
         description:
           type: string
+        issues:
+          type: array
+          items:
+            $ref: '#/components/schemas/Issue'
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
