@@ -419,6 +419,9 @@ components:
   schemas:
     Issue:
       type: object
+      required:
+        - name
+        - description
       properties:
         id:
           type: integer
@@ -438,6 +441,9 @@ components:
           format: date-time
     Task:
       type: object
+      required:
+        - name
+        - description
       properties:
         id:
           type: integer
@@ -458,6 +464,7 @@ components:
     Project:
       required:
         - name
+        - description
       type: object
       properties:
         id:
