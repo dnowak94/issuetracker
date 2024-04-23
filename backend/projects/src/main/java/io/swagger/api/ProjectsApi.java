@@ -5,9 +5,21 @@
  */
 package io.swagger.api;
 
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import io.swagger.model.Issue;
+import io.swagger.model.IssueStatus;
 import io.swagger.model.Project;
 import io.swagger.model.Task;
+import io.swagger.model.TaskStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -17,14 +29,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.util.List;
 
 @jakarta.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2024-04-22T19:17:38.806531302Z[GMT]")
 @Validated
@@ -57,7 +61,7 @@ public interface ProjectsApi {
 );
 
 
-    @Operation(summary = "Create an issue for a project", description = "Create a new issue for a project", tags={ "tasks" })
+    @Operation(summary = "Create an task for a project", description = "Create a new task for a project", tags={ "tasks" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "201", description = "successful operation", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Task.class))),
         
@@ -66,7 +70,7 @@ public interface ProjectsApi {
         produces = { "application/json" }, 
         consumes = { "application/json" }, 
         method = RequestMethod.POST)
-    ResponseEntity<Task> createTask(@Parameter(in = ParameterIn.PATH, description = "ID of project to get issues from", required=true, schema=@Schema()) @PathVariable("projectId") Long projectId
+    ResponseEntity<Task> createTask(@Parameter(in = ParameterIn.PATH, description = "ID of project to get tasks from", required=true, schema=@Schema()) @PathVariable("projectId") Long projectId
 , @Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody Task body
 );
 
@@ -135,6 +139,7 @@ public interface ProjectsApi {
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<List<Issue>> getIssues(@Parameter(in = ParameterIn.PATH, description = "ID of project to get issues from", required=true, schema=@Schema()) @PathVariable("projectId") Long projectId
+, @Parameter(in = ParameterIn.QUERY, description = "can be used to filter by issue status" ,schema=@Schema()) @Valid @RequestParam(value = "status", required = false) String status
 );
 
 
@@ -170,6 +175,7 @@ public interface ProjectsApi {
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<List<Task>> getTasks(@Parameter(in = ParameterIn.PATH, description = "ID of project to get tasks from", required=true, schema=@Schema()) @PathVariable("projectId") Long projectId
+, @Parameter(in = ParameterIn.QUERY, description = "for filtering by task status" ,schema=@Schema()) @Valid @RequestParam(value = "status", required = false) String status
 );
 
 

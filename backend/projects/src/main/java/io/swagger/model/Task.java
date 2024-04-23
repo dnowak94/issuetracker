@@ -1,17 +1,16 @@
 package io.swagger.model;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 import org.springframework.validation.annotation.Validated;
 import org.threeten.bp.OffsetDateTime;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -35,41 +34,9 @@ public class Task {
     @JsonProperty("description")
     private String description = null;
 
-    /**
-     * Tasks Status
-     */
-    public enum StatusEnum {
-        TODO("todo"),
-
-        WORK_IN_PROGRESS("work_in_progress"),
-
-        DONE("done");
-
-        private String value;
-
-        StatusEnum(String value) {
-            this.value = value;
-        }
-
-        @Override
-        @JsonValue
-        public String toString() {
-            return String.valueOf(value);
-        }
-
-        @JsonCreator
-        public static StatusEnum fromValue(String text) {
-            for (StatusEnum b : StatusEnum.values()) {
-                if (String.valueOf(b.value).equals(text)) {
-                    return b;
-                }
-            }
-            return null;
-        }
-    }
-
     @JsonProperty("status")
-    private StatusEnum status = StatusEnum.TODO;
+    @Enumerated(EnumType.STRING)
+    private TaskStatus status = TaskStatus.TODO;
 
     @JsonProperty("createdAt")
     private OffsetDateTime createdAt = OffsetDateTime.now();
@@ -84,7 +51,7 @@ public class Task {
 
     /**
      * Get id
-     *
+     * 
      * @return id
      **/
     @Schema(example = "10", description = "")
@@ -104,7 +71,7 @@ public class Task {
 
     /**
      * Get title
-     *
+     * 
      * @return title
      **/
     @Schema(description = "")
@@ -124,7 +91,7 @@ public class Task {
 
     /**
      * Get description
-     *
+     * 
      * @return description
      **/
     @Schema(description = "")
@@ -137,23 +104,24 @@ public class Task {
         this.description = description;
     }
 
-    public Task status(StatusEnum status) {
+    public Task status(TaskStatus status) {
         this.status = status;
         return this;
     }
 
     /**
-     * Tasks Status
-     *
+     * Get status
+     * 
      * @return status
      **/
-    @Schema(example = "todo", description = "Tasks Status")
+    @Schema(description = "")
 
-    public StatusEnum getStatus() {
+    @Valid
+    public TaskStatus getStatus() {
         return status;
     }
 
-    public void setStatus(StatusEnum status) {
+    public void setStatus(TaskStatus status) {
         this.status = status;
     }
 
@@ -164,7 +132,7 @@ public class Task {
 
     /**
      * Get createdAt
-     *
+     * 
      * @return createdAt
      **/
     @Schema(description = "")
@@ -185,7 +153,7 @@ public class Task {
 
     /**
      * Get updatedAt
-     *
+     * 
      * @return updatedAt
      **/
     @Schema(description = "")
@@ -198,7 +166,6 @@ public class Task {
     public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
-
 
     @Override
     public boolean equals(java.lang.Object o) {
