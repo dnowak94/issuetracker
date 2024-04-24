@@ -128,13 +128,26 @@ public class ProjectsApiController implements ProjectsApi {
         return new ResponseEntity<String>("Project not found!", HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity<Iterable<Project>> findAllProjects() {
+    public ResponseEntity<List<Project>> findAll(
+                            @Parameter(in = ParameterIn.QUERY, description = "filters issues by issue status", schema = @Schema()) @Valid @RequestParam(value = "issueStatus", required = false) IssueStatus issueStatus,
+                            @Parameter(in = ParameterIn.QUERY, description = "filters tasks by task status", schema = @Schema()) @Valid @RequestParam(value = "taskStatus", required = false) TaskStatus taskStatus) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
-            Iterable<Project> projects = this.repository.findAll();
-            return new ResponseEntity<Iterable<Project>>(projects, HttpStatus.OK);
+            List<Project> projects = (List<Project>) this.repository.findAll();
+
+            projects.forEach(project -> {
+                if(issueStatus != null) {
+                    List<Issue> issues = project.getIssues().stream().filter(issue -> issue.getStatus().equals(issueStatus)).toList();
+                    project.setIssues(issues);
+                }
+                if(taskStatus != null) {
+                    List<Task> tasks = project.getTasks().stream().filter(task -> task.getStatus().equals(taskStatus)).toList();
+                    project.setTasks(tasks);
+                }
+            });
+            return new ResponseEntity<List<Project>>(projects, HttpStatus.OK);
         }
-        return new ResponseEntity<Iterable<Project>>(HttpStatus.NOT_ACCEPTABLE);
+        return new ResponseEntity<List<Project>>(HttpStatus.NOT_ACCEPTABLE);
     }
 
     public ResponseEntity<Issue> getIssue(
@@ -163,7 +176,8 @@ public class ProjectsApiController implements ProjectsApi {
             if (project.isPresent()) {
                 List<Issue> issues = project.get().getIssues();
                 if (status != null) {
-                    issues = issues.stream().filter(issue -> issue.getStatus().equals(IssueStatus.fromValue(status))).toList();
+                    issues = issues.stream().filter(issue -> issue.getStatus().equals(IssueStatus.fromValue(status)))
+                            .toList();
                 }
                 return new ResponseEntity<>(issues, HttpStatus.OK);
             }
@@ -211,7 +225,8 @@ public class ProjectsApiController implements ProjectsApi {
             if (project.isPresent()) {
                 List<Task> tasks = project.get().getTasks();
                 if (status != null) {
-                    tasks = tasks.stream().filter(task -> task.getStatus().equals(TaskStatus.fromValue(status))).toList();
+                    tasks = tasks.stream().filter(task -> task.getStatus().equals(TaskStatus.fromValue(status)))
+                            .toList();
                 }
                 return new ResponseEntity<>(tasks, HttpStatus.OK);
             }

@@ -30,15 +30,8 @@ public class Swagger2SpringBoot {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/projects")
-                        .allowedOrigins("http://localhost")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE");
-
-                registry.addMapping("/projects/[0-9]+/issues")
-                        .allowedOrigins("http://localhost")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE");
-                registry.addMapping("/projects/[0-9]+/tasks")
-                        .allowedOrigins("http://localhost")
+                registry.addMapping("/projects/**")
+                        .allowedOrigins("http://localhost:4200")
                         .allowedMethods("GET", "POST", "PUT", "DELETE");
             }
         };

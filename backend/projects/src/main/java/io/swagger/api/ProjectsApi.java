@@ -112,13 +112,15 @@ public interface ProjectsApi {
 );
 
 
-    @Operation(summary = "get all projects", description = "", tags={ "projects" })
-    @ApiResponses(value = { 
-        @ApiResponse(responseCode = "200", description = "successfull operation", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Project.class)))) })
-    @RequestMapping(value = "/projects",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
-    ResponseEntity<Iterable<Project>> findAllProjects();
+@Operation(summary = "get all projects", description = "", tags={ "projects" })
+@ApiResponses(value = { 
+    @ApiResponse(responseCode = "200", description = "successfull operation", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Project.class)))) })
+@RequestMapping(value = "/projects",
+    produces = { "application/json" }, 
+    method = RequestMethod.GET)
+ResponseEntity<List<Project>> findAll(@Parameter(in = ParameterIn.QUERY, description = "filters issues by issue status" ,schema=@Schema()) @Valid @RequestParam(value = "issueStatus", required = false) IssueStatus issueStatus
+, @Parameter(in = ParameterIn.QUERY, description = "filters tasks by task status" ,schema=@Schema()) @Valid @RequestParam(value = "taskStatus", required = false) TaskStatus taskStatus
+);
 
 
     @Operation(summary = "get issue by id", description = "", tags={ "issues" })
