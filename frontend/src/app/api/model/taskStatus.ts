@@ -10,22 +10,10 @@
  * Do not edit the class manually.
  */
 
-export interface Task { 
-    id?: number;
-    title?: string;
-    description?: string;
-    /**
-     * Tasks Status
-     */
-    status?: Task.StatusEnum;
-    createdAt?: Date;
-    updatedAt?: Date;
-}
-export namespace Task {
-    export type StatusEnum = 'todo' | 'work_in_progress' | 'done';
-    export const StatusEnum = {
-        Todo: 'todo' as StatusEnum,
-        WorkInProgress: 'work_in_progress' as StatusEnum,
-        Done: 'done' as StatusEnum
-    };
-}
+export type TaskStatus = 'todo' | 'work_in_progress' | 'done';
+
+export const TaskStatus = {
+    Todo: 'todo' as TaskStatus,
+    WorkInProgress: 'work_in_progress' as TaskStatus,
+    Done: 'done' as TaskStatus
+};

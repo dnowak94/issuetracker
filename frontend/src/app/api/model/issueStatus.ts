@@ -10,8 +10,10 @@
  * Do not edit the class manually.
  */
 
-export interface Project { 
-    id?: number;
-    name: string;
-    description?: string;
-}
+export type IssueStatus = 'unresolved' | 'resolved' | 'work_in_progress';
+
+export const IssueStatus = {
+    Unresolved: 'unresolved' as IssueStatus,
+    Resolved: 'resolved' as IssueStatus,
+    WorkInProgress: 'work_in_progress' as IssueStatus
+};

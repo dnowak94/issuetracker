@@ -1,5 +1,5 @@
 <div class="col">
-  <a routerLink="/issues/create" class="btn btn-primary">
+  <a routerLink="issues/create" class="btn btn-primary">
     <ng-icon name="bootstrapJournalPlus"></ng-icon>
   </a>
   <table *ngIf="issues && issues.length>0; else elseBlock" class="table">
@@ -15,11 +15,11 @@
     <tbody>
       <tr *ngFor="let issue of issues">
         <th scope="row">{{issue.id}}</th>
-        <td><a class="btn" routerLink="/issues/{{issue.id}}">{{issue.title}}</a></td>
+        <td><a class="btn" routerLink="issues/{{issue.id}}">{{issue.title}}</a></td>
         <td>{{issue.createdAt | date:'short'}}</td>
         <td>{{issue.updatedAt | date:'short'}}</td>
         <td>
-          <a class="btn" routerLink="/issues/{{issue.id}}">
+          <a class="btn" routerLink="issues/edit/{{issue.id}}">
             <ng-icon name="bootstrapPencil"></ng-icon>
           </a>
           <button class="btn btn-secondary" (click)="onDeleteClick(deleteModal, issue)">

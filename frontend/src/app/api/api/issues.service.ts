@@ -17,7 +17,8 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
-import { Issue } from '../../model/issue';
+import { Issue } from '../model/issue';
+import { IssueStatus } from '../model/issueStatus';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -199,16 +200,23 @@ export class IssuesService {
      * lists all issues of the project with the specified id
      * 
      * @param projectId ID of project to get issues from
+     * @param status can be used to filter by issue status
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getIssues(projectId: number, observe?: 'body', reportProgress?: boolean): Observable<Array<Issue>>;
-    public getIssues(projectId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Issue>>>;
-    public getIssues(projectId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Issue>>>;
-    public getIssues(projectId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getIssues(projectId: number, status?: IssueStatus, observe?: 'body', reportProgress?: boolean): Observable<Array<Issue>>;
+    public getIssues(projectId: number, status?: IssueStatus, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Issue>>>;
+    public getIssues(projectId: number, status?: IssueStatus, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Issue>>>;
+    public getIssues(projectId: number, status?: IssueStatus, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (projectId === null || projectId === undefined) {
             throw new Error('Required parameter projectId was null or undefined when calling getIssues.');
+        }
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (status !== undefined && status !== null) {
+            queryParameters = queryParameters.set('status', <any>status);
         }
 
         let headers = this.defaultHeaders;
@@ -228,6 +236,7 @@ export class IssuesService {
 
         return this.httpClient.request<Array<Issue>>('get',`${this.basePath}/projects/${encodeURIComponent(String(projectId))}/issues`,
             {
+                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,

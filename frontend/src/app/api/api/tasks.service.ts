@@ -17,7 +17,8 @@ import { CustomHttpUrlEncodingCodec }                        from '../encoder';
 
 import { Observable }                                        from 'rxjs';
 
-import { Task } from '../../model/task';
+import { Task } from '../model/task';
+import { TaskStatus } from '../model/taskStatus';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -56,9 +57,9 @@ export class TasksService {
 
 
     /**
-     * Create an issue for a project
-     * Create a new issue for a project
-     * @param projectId ID of project to get issues from
+     * Create an task for a project
+     * Create a new task for a project
+     * @param projectId ID of project to get tasks from
      * @param body 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -199,16 +200,23 @@ export class TasksService {
      * lists all issues of the project with the specified id
      * 
      * @param projectId ID of project to get tasks from
+     * @param status for filtering by task status
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getTasks(projectId: number, observe?: 'body', reportProgress?: boolean): Observable<Array<Task>>;
-    public getTasks(projectId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Task>>>;
-    public getTasks(projectId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Task>>>;
-    public getTasks(projectId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getTasks(projectId: number, status?: TaskStatus, observe?: 'body', reportProgress?: boolean): Observable<Array<Task>>;
+    public getTasks(projectId: number, status?: TaskStatus, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Task>>>;
+    public getTasks(projectId: number, status?: TaskStatus, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Task>>>;
+    public getTasks(projectId: number, status?: TaskStatus, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (projectId === null || projectId === undefined) {
             throw new Error('Required parameter projectId was null or undefined when calling getTasks.');
+        }
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (status !== undefined && status !== null) {
+            queryParameters = queryParameters.set('status', <any>status);
         }
 
         let headers = this.defaultHeaders;
@@ -228,6 +236,7 @@ export class TasksService {
 
         return this.httpClient.request<Array<Task>>('get',`${this.basePath}/projects/${encodeURIComponent(String(projectId))}/tasks`,
             {
+                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,

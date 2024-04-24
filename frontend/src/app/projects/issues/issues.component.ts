@@ -1,27 +1,39 @@
 import { CommonModule, DatePipe, NgComponentOutlet, NgFor } from '@angular/common';
 import { Component, Input, OnInit, TemplateRef, Type, inject } from '@angular/core';
-import { Issue } from '../../model/Issue';
-import { IssuesService } from '../../services/issues.service';
-import { environment } from '../../../environments/environment';
-import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import { bootstrapJournalPlus, bootstrapPencil, bootstrapTrash } from '@ng-icons/bootstrap-icons'
+import { IssuesService } from '../../api/api/issues.service';
 import { RouterLink } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { Issue } from '../../api'; 
+import { environment } from '../../../environments/environment';
+import { NgIconComponent, NgIconsModule, provideIcons } from '@ng-icons/core';
+import { bootstrapJournalPlus, bootstrapPencil, bootstrapTrash } from '@ng-icons/bootstrap-icons';
 @Component({
   selector: 'app-issues',
-  standalone: true,
-  imports: [CommonModule, DatePipe, NgIconComponent, RouterLink, NgComponentOutlet],
-  providers: [provideIcons({bootstrapJournalPlus, bootstrapPencil, bootstrapTrash })],
   templateUrl: './issues.component.html',
-  styleUrl: './issues.component.scss'
+  styleUrl: './issues.component.scss',
+  standalone: true,
+  imports: [
+    CommonModule, NgIconComponent, RouterLink, DatePipe
+  ],
+  providers: [provideIcons({bootstrapTrash, bootstrapPencil, bootstrapJournalPlus})]
 })
 
 export class IssuesComponent implements OnInit {
-  @Input() issues: Issue[] = [];
+  issues: Issue[] = [];
+  @Input() projectId?: number;
   constructor(private issuesService: IssuesService) { }
   private modalService = inject(NgbModal);
   
+  ngOnInit(): void {
+    this.getIssues();
+  }
+
+  getIssues(): void {
+    console.log('url: ', environment.PROJECT_SERVICE);
+    this.issuesService.getIssues(this.projectId!)
+      .subscribe(issues => this.issues = issues);
+  }
+
   getDeleteModalTitle(issue:Issue) {
     return `delete issue '${issue.title}'`;
   }
@@ -30,21 +42,11 @@ export class IssuesComponent implements OnInit {
     return `Are you sure you want to delete issue '${issue.title}'`;
   }
 
-  ngOnInit(): void {
-    this.getIssues();
-  }
-
-  getIssues(): void {
-    console.log('url: ', environment.ISSUES_URL);
-    this.issuesService.getIssues()
-      .subscribe(issues => this.issues = issues);
-  }
-
   onDeleteClick(deleteModal: TemplateRef<any>, issue:Issue) {
     this.modalService.open(deleteModal).result.then(
       (result) => {
         if(result === 'delete') {
-          this.issuesService.delete(issue)
+          this.issuesService.deleteIssue(this.projectId!, issue.id!, "body", false)
           .subscribe(
             _ => {
               console.log(`issue with id=${issue.id} deleted.`);

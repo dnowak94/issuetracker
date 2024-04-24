@@ -1,0 +1,50 @@
+<div class="col">
+    <a routerLink="tasks/create" class="btn btn-primary">
+      <ng-icon name="bootstrapJournalPlus"></ng-icon>
+    </a>
+    <table *ngIf="tasks && tasks.length>0; else elseBlock" class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th>task</th>
+          <th>created at</th>
+          <th>updated at</th>
+          <th>Operations</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let task of tasks">
+          <th scope="row">{{task.id}}</th>
+          <td><a class="btn" routerLink="tasks/{{task.id}}">{{task.title}}</a></td>
+          <td>{{task.createdAt | date:'short'}}</td>
+          <td>{{task.updatedAt | date:'short'}}</td>
+          <td>
+            <a class="btn" routerLink="tasks/edit/{{task.id}}">
+              <ng-icon name="bootstrapPencil"></ng-icon>
+            </a>
+            <button class="btn btn-secondary" (click)="onDeleteClick(deleteModal, task)">
+              <ng-icon name="bootstrapTrash"></ng-icon>
+            </button>
+            <ng-template #deleteModal let-modal>
+              <div class="modal-header">
+                <h5 class="modal-title" id="modal-title">delete task: '{{ task.title }}'</h5>
+                <button type="button" class="btn-close" (click)="modal.dismiss('Close')" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p>Are you sure you want to delete {{task.title}}?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-light" (click)="modal.dismiss('Cancel')" aria-label="Cancel">Cancel</button>
+                <button type="button" class="btn btn-danger" (click)="modal.close('delete')">Delete</button>
+              </div>
+            </ng-template>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <ng-template #elseBlock>
+      <div class="alert alert-info" role="alert">
+        <span>There are no tasks.</span>
+      </div>
+    </ng-template>
+  </div>
