@@ -1,3 +1,14 @@
 {
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.configuration.runtimes": [
+        {
+            "name": "JavaSE-17-WSL",
+            "path": "/opt/java/jdk-22.0.1"
+        },
+        {
+            "name": "JavaSE-17",
+            "path": "D:/Java/jdk-17.0.2",
+            "default": true
+        }
+    ]
 }
