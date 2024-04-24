@@ -31,6 +31,19 @@ paths:
        - projects
       summary: get all projects
       operationId: findAll
+      parameters:
+        - name: issueStatus
+          in: query
+          description: filters issues by issue status
+          required: false
+          schema:
+            $ref: '#/components/schemas/IssueStatus'
+        - name: taskStatus
+          in: query
+          description: filters tasks by task status
+          required: false
+          schema:
+            $ref: '#/components/schemas/TaskStatus'
       responses:
         '200':
           description: successfull operation
