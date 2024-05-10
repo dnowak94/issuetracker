@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adminer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: adminer
+  template:
+    metadata:
+      labels:
+        run: adminer
+      name: adminer
+    spec:
+      containers:
+      - image: adminer
+        name: adminer
+        env:
+        - name: ADMINER_DEFAULT_SERVER
+          value: db-service
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: adminer-service
+spec:
+  selector:
+    run: adminer
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080
+      targetPort: 8081
+  type: LoadBalancer
