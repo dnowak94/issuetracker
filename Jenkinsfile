@@ -2,7 +2,7 @@
 pipeline {
     agent any
     environment {
-        DB_HOST = 'localhost'
+        DB_HOST = 'db'
         DB_PORT = 3306
     }
     stages {
