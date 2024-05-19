@@ -2,26 +2,27 @@
 pipeline {
     agent any
     environment {
-        DB_HOST = 'localhost'
-        DB_PORT = 3306
+        DB_HOST = 'db'
+        DB_PORT = 5432
     }
     stages {
         stage('Build') {
             steps {
-                dir ('backend/issuetracker') {
-                    sh 'mvn -DskipTests clean package'
+                dir ('backend/projects') {
+                    sh 'mvn clean package'
+                }
+            }
+
+            steps {
+                dir ('backend/projects') {
+                    sh 'mvn test'
                 }
             }
         }
         stage('Test') {
-            steps {
-                dir ('backend/issuetracker') {
-                    sh 'mvn test'
-                }
-            }
             post {
                 always {
-                    junit 'backend/issuetracker/target/surefire-reports/*.xml'
+                    junit 'backend/projects/target/surefire-reports/*.xml'
                 }
             }
         }
