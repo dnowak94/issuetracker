@@ -11,9 +11,7 @@ pipeline {
                 dir ('backend/projects') {
                     sh 'mvn clean package'
                 }
-            }
 
-            steps {
                 dir ('backend/projects') {
                     sh 'mvn test'
                 }
