@@ -3,7 +3,7 @@ pipeline {
     agent any
     environment {
         DB_HOST = 'db'
-        DB_PORT = 3306
+        DB_PORT = 5432
     }
     stages {
         stage('Build') {
