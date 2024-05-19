@@ -9,15 +9,16 @@ pipeline {
         stage('Build') {
             steps {
                 dir ('backend/projects') {
-                    sh 'mvn clean package -DskipTests'
-                }
-
-                dir ('backend/projects') {
-                    sh 'mvn test'
+                    sh 'mvn -DskipTests clean package'
                 }
             }
         }
         stage('Test') {
+            steps {
+                dir ('backend/projects') {
+                    sh 'mvn test'
+                }
+            }
             post {
                 always {
                     junit 'backend/projects/target/surefire-reports/*.xml'
