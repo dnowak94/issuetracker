@@ -1,26 +1,23 @@
-package io.swagger.model;
+package com.example.issuetracker.entities;
 
+import java.time.OffsetDateTime;
 import java.util.Objects;
 
 import org.springframework.validation.annotation.Validated;
-import org.threeten.bp.OffsetDateTime;
 
+import com.example.issuetracker.rest.model.TaskStatusDTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.Valid;
 
-/**
- * Task
- */
 @Validated
-@jakarta.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2024-04-22T19:17:38.806531302Z[GMT]")
 @Entity
 public class Task {
     @JsonProperty("id")
@@ -28,33 +25,25 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id = null;
 
-    @JsonProperty("title")
-    private String title = null;
+    private String title = "";
 
-    @JsonProperty("description")
-    private String description = null;
+    private String description = "";
 
-    @JsonProperty("status")
     @Enumerated(EnumType.STRING)
-    private TaskStatus status = TaskStatus.TODO;
+    private TaskStatusDTO status = TaskStatusDTO.TODO;
 
-    @JsonProperty("createdAt")
     private OffsetDateTime createdAt = OffsetDateTime.now();
 
     @JsonProperty("updatedAt")
     private OffsetDateTime updatedAt = OffsetDateTime.now();
+    
+    @ManyToOne
+    private Project project;
 
     public Task id(Long id) {
         this.id = id;
         return this;
     }
-
-    /**
-     * Get id
-     * 
-     * @return id
-     **/
-    @Schema(example = "10", description = "")
 
     public Long getId() {
         return id;
@@ -69,13 +58,6 @@ public class Task {
         return this;
     }
 
-    /**
-     * Get title
-     * 
-     * @return title
-     **/
-    @Schema(description = "")
-
     public String getTitle() {
         return title;
     }
@@ -89,13 +71,6 @@ public class Task {
         return this;
     }
 
-    /**
-     * Get description
-     * 
-     * @return description
-     **/
-    @Schema(description = "")
-
     public String getDescription() {
         return description;
     }
@@ -104,24 +79,17 @@ public class Task {
         this.description = description;
     }
 
-    public Task status(TaskStatus status) {
+    public Task status(TaskStatusDTO status) {
         this.status = status;
         return this;
     }
 
-    /**
-     * Get status
-     * 
-     * @return status
-     **/
-    @Schema(description = "")
-
     @Valid
-    public TaskStatus getStatus() {
+    public TaskStatusDTO getStatus() {
         return status;
     }
 
-    public void setStatus(TaskStatus status) {
+    public void setStatus(TaskStatusDTO status) {
         this.status = status;
     }
 
@@ -129,13 +97,6 @@ public class Task {
         this.createdAt = createdAt;
         return this;
     }
-
-    /**
-     * Get createdAt
-     * 
-     * @return createdAt
-     **/
-    @Schema(description = "")
 
     @Valid
     public OffsetDateTime getCreatedAt() {
@@ -151,13 +112,6 @@ public class Task {
         return this;
     }
 
-    /**
-     * Get updatedAt
-     * 
-     * @return updatedAt
-     **/
-    @Schema(description = "")
-
     @Valid
     public OffsetDateTime getUpdatedAt() {
         return updatedAt;
@@ -167,7 +121,15 @@ public class Task {
         this.updatedAt = updatedAt;
     }
 
-    @Override
+    public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
+
+	@Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
             return true;
