@@ -90,3 +90,5 @@ data/
 .DS_Store
 Thumbs.db
 
+# OpenAPI generated files
+frontend/src/app/api/generated/
