@@ -6,7 +6,6 @@ import { CommonModule, registerLocaleData } from '@angular/common';
 import { ActivatedRoute, provideRouter, Router, RouterLink, RouterLinkActive, RouterOutlet, withComponentInputBinding } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { ApiModule } from './api';
 import { HttpClientModule } from '@angular/common/http';
 import { provideNgIconsConfig } from '@ng-icons/core';
 
@@ -23,15 +22,14 @@ registerLocaleData(localeDe, localeDeExtra);
     RouterOutlet,
     RouterLink,
     RouterLinkActive,
-    NgbModule,
-    ApiModule
+    NgbModule
   ],
   declarations: [
     AppComponent
   ],
   bootstrap: [AppComponent],
   providers: [
-    provideRouter(routes, withComponentInputBinding()),
+    provideRouter(routes),
     importProvidersFrom(HttpClientModule), { provide: LOCALE_ID, useValue: 'de' },
     provideNgIconsConfig({
       size: '1.5em'
