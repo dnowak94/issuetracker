@@ -6,7 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "clean": "rm -Rf src/app/api/generated",
+    "generate:api": "openapi-generator-cli generate -i ../backend/projects/openapi.yaml -g typescript-angular -o src/app/api/generated/projects --additional-properties withInterfaces=true --generate-alias-as-model"
   },
   "private": true,
   "dependencies": {
@@ -32,6 +34,7 @@
     "@angular/cli": "^17.0.7",
     "@angular/compiler-cli": "^17.0.0",
     "@angular/localize": "^17.0.0",
+    "@openapitools/openapi-generator-cli": "^2.13.4",
     "@types/jasmine": "~5.1.0",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
@@ -39,6 +42,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "prettier": "3.3.1",
     "typescript": "~5.2.2"
   }
 }
