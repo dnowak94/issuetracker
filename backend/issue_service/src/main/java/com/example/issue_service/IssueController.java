@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON;
-
 @Controller
 @RequestMapping(path="/issues")
 public class IssueController {
@@ -41,5 +39,11 @@ public class IssueController {
     public void update(@RequestBody Issue issue) {
         issue.setUpdatedAt(LocalDateTime.now());
         this.issueRepository.save(issue);
+    }
+
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void delete(@PathVariable long id) {
+        this.issueRepository.deleteById(id);
     }
 }
