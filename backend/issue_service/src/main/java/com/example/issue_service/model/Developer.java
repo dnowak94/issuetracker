@@ -1,11 +1,12 @@
 package com.example.issue_service.model;
 
-import jakarta.persistence.*;
-
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity(name = "Developer")
 @Table(name = "developer")

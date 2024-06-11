@@ -1,3 +1,3 @@
 export const environment = {
-    ISSUES_URL: 'http://localhost:8080/issues'
+    PROJECT_SERVICE: 'http://localhost:8080'
 };

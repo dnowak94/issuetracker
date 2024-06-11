@@ -1,8 +1,11 @@
 # issuetracker
+## Preview
+![Frontend Projects Page](./assets/frontent_projects1.png)
+![Frontend Project Details Page](./assets/frontent_projects2.png)
 ## Getting Started
 ### build backend
 ```
-cd backend/issue_service
+cd backend/projects
 ./build.sh
 ```
 ### Run frontend

@@ -1,8 +1,9 @@
 services:
-  issues:
-    image: issuetracker_issue_service
+  projects:
+    image: projects:1.0.0
     environment:
       - SERVICE_NAME=issues
+      - PROFILE=prod
       - DB_HOST=db
       - DB_PORT=5432
       - DB_USER=issuetracker
@@ -10,8 +11,6 @@ services:
       - DB_PASSWORD=password
     ports:
       - "8080:8080"
-    networks:
-      - jenkins
   db:
     image: postgres:16.1-alpine3.19
     environment:
@@ -24,15 +23,8 @@ services:
       - "./data/postgres:/var/lib/postgresql/data"
     ports:
       - "5432:5432"
-    networks:
-      - jenkins
   adminer:
     image: adminer
     restart: always
     ports:
       - 8081:8080
-    networks:
-      - jenkins
-networks:
-  jenkins:
-    external: true

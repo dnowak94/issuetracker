@@ -1,0 +1,50 @@
+<div class="col">
+  <a routerLink="issues/create" class="btn btn-primary">
+    <ng-icon name="bootstrapJournalPlus"></ng-icon>
+  </a>
+  <table *ngIf="issues && issues.length>0; else elseBlock" class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th>Issue</th>
+        <th>created at</th>
+        <th>updated at</th>
+        <th>Operations</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let issue of issues">
+        <th scope="row">{{issue.id}}</th>
+        <td><a class="btn" routerLink="issues/{{issue.id}}">{{issue.title}}</a></td>
+        <td>{{issue.createdAt | date:'short'}}</td>
+        <td>{{issue.updatedAt | date:'short'}}</td>
+        <td>
+          <a class="btn" routerLink="issues/edit/{{issue.id}}">
+            <ng-icon name="bootstrapPencil"></ng-icon>
+          </a>
+          <button class="btn btn-secondary" (click)="onDeleteClick(deleteModal, issue)">
+            <ng-icon name="bootstrapTrash"></ng-icon>
+          </button>
+          <ng-template #deleteModal let-modal>
+            <div class="modal-header">
+              <h5 class="modal-title" id="modal-title">delete issue: '{{ issue.title }}'</h5>
+              <button type="button" class="btn-close" (click)="modal.dismiss('Close')" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p>Are you sure you want to delete {{issue.title}}?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-light" (click)="modal.dismiss('Cancel')" aria-label="Cancel">Cancel</button>
+              <button type="button" class="btn btn-danger" (click)="modal.close('delete')">Delete</button>
+            </div>
+          </ng-template>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <ng-template #elseBlock>
+    <div class="alert alert-info" role="alert">
+      <span>There are no issues.</span>
+    </div>
+  </ng-template>
+</div>

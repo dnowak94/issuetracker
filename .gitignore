@@ -40,17 +40,6 @@ tmp/
 out-tsc/
 bazel-out/
 
-# Compiled output
-dist/
-tmp/
-out-tsc/
-bazel-out/
-
-# Node
-node_modules/
-npm-debug.log
-yarn-error.log
-
 # Maven
 target/
 pom.xml.tag
@@ -101,3 +90,5 @@ data/
 .DS_Store
 Thumbs.db
 
+# OpenAPI generated files
+frontend/src/app/api/generated/
