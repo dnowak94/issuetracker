@@ -1,8 +1,9 @@
 services:
-  issues:
-    image: issuetracker_issue_service
+  projects:
+    image: projects:1.0.0
     environment:
       - SERVICE_NAME=issues
+      - PROFILE=prod
       - DB_HOST=db
       - DB_PORT=5432
       - DB_USER=issuetracker

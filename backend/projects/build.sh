@@ -1,4 +1,3 @@
 docker compose up -d db
-mvn clean package
-docker build -t issuetracker_issue_service .
-docker compose up -d db issues
+mvn clean spring-boot:build-image
+docker compose up -d db projects
