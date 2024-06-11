@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-import { IssuesService, ProjectsService, TasksService } from '../../api';
 
 import { Observable, map, take } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { Project } from '../../api/model/project';
-import { IssueStatus } from '../../api/model/issueStatus';
-import { TaskStatus } from '../../api/model/taskStatus';
-import { Task } from '../../api/model/task';
+import { Project } from '../../api/generated/projects/model/project';
+import { IssueStatus } from '../../api/generated/projects/model/issueStatus';
+import { TaskStatus } from '../../api/generated/projects/model/taskStatus';
+import { Task } from '../../api/generated/projects/model/task';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { IssuesService, ProjectsService, TasksService } from '../../api/generated/projects';
 
 @Component({
   selector: 'app-projects-list',
@@ -19,33 +19,16 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 export class ProjectsListComponent {
   projects: Project[] = [];
   constructor(
-    private projectsService: ProjectsService,
-    private issuesService: IssuesService,
-    private tasksService: TasksService
+    private projectsService: ProjectsService
   ) { }
 
   ngOnInit(): void {
     this.getProjects();
   }
   getProjects(): void {
-    let projects = this.projectsService.findAll(IssueStatus.Unresolved, TaskStatus.Todo)
+    this.projectsService.findAll()
     .subscribe(
       projects => this.projects = projects
     );
-  }
-
-  getOpenIssues(projectId: number): any {
-    this.issuesService.getIssues(projectId, IssueStatus.Unresolved, 'body')
-      .subscribe(issues => {
-        return issues;
-      });
-  }
-
-  getOpenTasks(projectId: number): any {
-    let result: Task[] = [];
-    this.tasksService.getTasks(projectId, TaskStatus.Todo, 'body')
-      .subscribe(tasks => {
-        return tasks;
-      });
   }
 }

@@ -1,14 +1,17 @@
-<table class="table">
+<table *ngIf="projects && projects.length>0; else elseBlock" class="table">
     <thead>
         <th>name</th>
-        <th>Open issues</th>
-        <th>Open tasks</th>
+        <th>description</th>
     </thead>
     <tbody>
         <tr *ngFor="let project of projects">
             <td><a [routerLink]="['/projects', project.id]">{{ project.name }}</a></td>
-            <td>{{ project.issues?.length }}</td>
-            <td>{{ project.tasks?.length }}</td>
+            <td class="trim" [innerHTML]="project.description"></td>
         </tr>
     </tbody>
 </table>
+<ng-template #elseBlock>
+    <div class="alert alert-info" role="alert">
+      <span>There are no projects.</span>
+    </div>
+  </ng-template>

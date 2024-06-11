@@ -2,16 +2,16 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProjectsRoutingModule } from './projects-routing.module';
 import { EnumToArrayPipe } from './enum-to-array.pipe';
-import { TasksComponent } from './tasks/tasks.component';
-import { NgIconComponent, NgIconsModule, provideIcons } from '@ng-icons/core';
+import { NgIconComponent, NgIconsModule } from '@ng-icons/core';
 import { bootstrapJournalPlus, bootstrapPencil, bootstrapTrash } from '@ng-icons/bootstrap-icons';
 import { RouterLink } from '@angular/router';
-import { IssuesComponent } from './issues/issues.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NotFoundComponent } from './not-found/not-found.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
-    EnumToArrayPipe
+    EnumToArrayPipe,
+    NotFoundComponent
   ],
   imports: [
     CommonModule,
@@ -19,7 +19,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     NgIconComponent,
     RouterLink,
     NgIconComponent,
-    NgIconsModule.withIcons({bootstrapJournalPlus, bootstrapPencil, bootstrapTrash })
+    NgIconsModule.withIcons({bootstrapJournalPlus, bootstrapPencil, bootstrapTrash }),
+    SharedModule
   ]
 })
 export class ProjectsModule { }

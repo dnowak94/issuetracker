@@ -1,75 +1,56 @@
-import { Component, Input, OnInit, Optional } from '@angular/core';
-import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Issue, IssueStatus, IssuesService } from '../../../api';
-import { EnumToArrayPipe } from '../../enum-to-array.pipe';
-import { switchMap } from 'rxjs';
+import { Observable, map, switchMap } from 'rxjs';
+import { Issue, IssueStatus, IssuesService } from '../../../api/generated/projects';
+import { SharedModule } from '../../../shared/shared.module';
 
 @Component({
   selector: 'app-issue-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, SharedModule],
   templateUrl: './issue-form.component.html',
   styleUrl: './issue-form.component.scss'
 })
 export class IssueFormComponent implements OnInit {
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private formBuilder: FormBuilder,
-    private issuesService: IssuesService
-  ) { }
-
-  id: number | undefined;
-  @Input() projectId?: number;
-  issue: Issue | undefined;
+  @Input() issue$: Observable<Issue>;
+  @Output() issueSubmit = new EventEmitter();
+  issueForm$: Observable<FormGroup>;
   eIssueStatus = IssueStatus;
 
-  issueForm = this.formBuilder.group({
-    title: new FormControl('', {nonNullable: true}),
-    description: new FormControl('', { nonNullable: true }),
-    status: new FormControl<IssueStatus>(IssueStatus.Unresolved, {nonNullable: true})
-  });
+  constructor(private formBuilder:FormBuilder) {
+    this.issue$ = new Observable<Issue>();
+    this.issueForm$ = new Observable<FormGroup>();
+  }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id !== null) {
-      const issueId = Number(id);
-      this.id = issueId;
-      this.issuesService.getIssue(this.projectId!, issueId, "body")
-        .subscribe(issue => {
-          console.log("Get issue(): ", JSON.stringify(issue));
-          this.issueForm.patchValue(issue);
-          this.issue = issue;
-        });
-    }
+    this.issueForm$ = this.issue$.pipe(
+        map(issue => {
+          const { title, description, status, createdAt, updatedAt } = issue;
+          return this.formBuilder.group({
+            id: issue.id,
+            title: new FormControl(title, [
+              Validators.required
+            ]),
+            description: new FormControl(description, [
+              Validators.required
+            ]),
+            status: new FormControl<IssueStatus>(status!, [
+              Validators.required
+            ]),
+            createdAt: createdAt,
+            updatedAt: updatedAt
+          });
+        })
+    );
   }
 
-  get f() { return this.issueForm.controls; }
 
-
-  private saveIssue() {
-    return this.id === undefined
-      ? this.issuesService.createIssue(this.projectId!, this.issueForm.value, "body")
-      : this.issuesService.updateIssue(this.projectId!, this.id!, this.issueForm.value, "body");
-  }
-
-  onSubmit() {
-    if (this.issueForm.valid) {
-      this.saveIssue()
-        .subscribe({
-          next: () => {
-            console.log('Issue saved: ', JSON.stringify(this.issueForm.value));
-            const urlSegments = this.router.parseUrl(this.router.url).root.children['primary'].segments;
-            // go back to project
-            const url = urlSegments.slice(0, -3);
-            this.router.navigate(url.map((segment) => segment.path));
-          },
-          error: error => {
-            console.log('Issue save error: ', error);
-          }
-        });
+  onSubmit(form:FormGroup) {
+    if (form.invalid) {
+      return;
     }
+    this.issueSubmit.emit(form.value);
   }
 }

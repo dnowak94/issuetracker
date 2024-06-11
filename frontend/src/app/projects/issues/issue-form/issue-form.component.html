@@ -1,27 +1,24 @@
-<form [formGroup]="issueForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-        <div class="form-group">
-            <label for="issueTitle" class="form-label">Title</label>
-            <input type="text" class="form-control" id="issueTitle" name="title" formControlName="title">
-            <div *ngIf="f.title.errors" class="alert alert-danger" role="alert">
-                Title is required!
-            </div>  
-        </div>
-        <div class="form-group">
-            <label for="issueDescription" class="form-label">Description</label>
-            <textarea class="form-control" name="description" id="issueDescription" rows="3" formControlName="description"></textarea>
-        </div>
+<ng-container *ngIf="issueForm$ | async as issueForm; else loading">
+    <form class="form" [formGroup]="issueForm" (ngSubmit)="onSubmit(issueForm)">
+        <app-input inputType="text" label="Title" [control]="issueForm.controls['title']" />
+        <app-input inputType="text" controlType="textarea" [control]="issueForm.controls['description']" />
         <div class="form-group">
             <label class="form-label" for="issueStatus">Status</label>
             <select formControlName="status" id="issueStatus" class="form-select" aria-label="Issue Status">
-                <option *ngFor="let option of eIssueStatus | keyvalue" [ngValue]="option.value">{{option.value}}</option>
-              </select>
+                <option *ngFor="let option of eIssueStatus | keyvalue" [ngValue]="option.value">{{option.value}}
+                </option>
+            </select>
             <label for="issueStatus" class="form-label">Status</label>
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-primary" [disabled]="!issueForm!.valid">Submit</button>
         </div>
-    </div>
-</form>
+    </form>
 
-<pre>{{ issueForm!.value | json }}</pre>
+    <pre>{{ issueForm!.value | json }}</pre>
+</ng-container>
+<ng-template #loading>
+    <div class="spinner-border m-5" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</ng-template>
