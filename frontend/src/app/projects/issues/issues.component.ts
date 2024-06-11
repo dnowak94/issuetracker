@@ -1,9 +1,9 @@
 import { CommonModule, DatePipe, NgComponentOutlet, NgFor } from '@angular/common';
 import { Component, Input, OnInit, TemplateRef, Type, inject } from '@angular/core';
-import { IssuesService } from '../../api/api/issues.service';
+import { IssuesService } from '../../api/generated/projects/api/issues.service';
 import { RouterLink } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Issue } from '../../api'; 
+import { Issue } from '../../api/generated/projects'; 
 import { environment } from '../../../environments/environment';
 import { NgIconComponent, NgIconsModule, provideIcons } from '@ng-icons/core';
 import { bootstrapJournalPlus, bootstrapPencil, bootstrapTrash } from '@ng-icons/bootstrap-icons';
