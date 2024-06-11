@@ -65,6 +65,7 @@ public class TaskService {
 	public TaskDTO updateTaskById(Long projectId, Long taskId, TaskDTO taskDto) {
 		Task Task = this.taskRepository.findById(taskId).orElseThrow(EntityNotFoundException::new);
 		Task updatedTask = this.taskMapper.partialUpdate(taskDto, Task);
+		updatedTask.setUpdatedAt(OffsetDateTime.now());
 		return this.taskMapper.mapFromEntity(this.taskRepository.save(updatedTask));
 	}
 	

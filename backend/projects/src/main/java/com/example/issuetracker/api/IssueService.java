@@ -68,6 +68,7 @@ public class IssueService {
 	private Issue updateIssue(Long projectId, Long issueId, IssueDTO issueDto) {
 		Issue issue = issueRepository.findById(issueId).orElseThrow(EntityNotFoundException::new);
 		Issue updatedIssue = issueMapper.partialUpdate(issueDto, issue);
+		updatedIssue.setUpdatedAt(OffsetDateTime.now());
 		return issueRepository.save(updatedIssue);
 	}
 	
