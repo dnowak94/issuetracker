@@ -1,9 +1,9 @@
-import { Component, Input, OnInit, TemplateRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, Input, OnInit, TemplateRef, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { bootstrapJournalPlus, bootstrapPencil, bootstrapTrash } from '@ng-icons/bootstrap-icons';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { Task, TasksService } from '../../api/generated/projects';
 
 @Component({

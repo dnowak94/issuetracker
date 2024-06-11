@@ -1,9 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { Observable, map } from 'rxjs';
 import { Task, TaskStatus } from '../../../api/generated/projects';
 import { SharedModule } from '../../../shared/shared.module';
-import { Observable, map } from 'rxjs';
 
 @Component({
   selector: 'app-task-form',

@@ -1,13 +1,9 @@
 import { Component } from '@angular/core';
 
-import { Observable, map, take } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { Project } from '../../api/generated/projects/model/project';
-import { IssueStatus } from '../../api/generated/projects/model/issueStatus';
-import { TaskStatus } from '../../api/generated/projects/model/taskStatus';
-import { Task } from '../../api/generated/projects/model/task';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { IssuesService, ProjectsService, TasksService } from '../../api/generated/projects';
+import { ProjectsService } from '../../api/generated/projects';
+import { Project } from '../../api/generated/projects/model/project';
 
 @Component({
   selector: 'app-projects-list',

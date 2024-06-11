@@ -1,10 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { IssuesComponent } from '../issues/issues.component';
-import { ActivatedRoute } from '@angular/router';
-import { Project, ProjectsService } from '../../api/generated/projects';
 import { CommonModule } from '@angular/common';
-import { TasksComponent } from '../tasks/tasks.component';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs';
+import { Project, ProjectsService } from '../../api/generated/projects';
+import { IssuesComponent } from '../issues/issues.component';
+import { TasksComponent } from '../tasks/tasks.component';
 
 @Component({
   selector: 'app-project',

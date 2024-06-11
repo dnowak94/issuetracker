@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable, switchMap } from 'rxjs';
 import { Task, TasksService } from '../../../api/generated/projects';
 import { TaskFormComponent } from '../task-form/task-form.component';
-import { Observable, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-task-edit',

@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Task, TaskStatus, TasksService } from '../../../api/generated/projects';
-import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { TaskFormComponent } from '../task-form/task-form.component';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Observable, switchMap } from 'rxjs';
+import { Task, TaskStatus, TasksService } from '../../../api/generated/projects';
+import { TaskFormComponent } from '../task-form/task-form.component';
 
 @Component({
   selector: 'app-task-create',

@@ -1,12 +1,12 @@
-import { CommonModule, DatePipe, NgComponentOutlet, NgFor } from '@angular/common';
-import { Component, Input, OnInit, TemplateRef, Type, inject } from '@angular/core';
-import { IssuesService } from '../../api/generated/projects/api/issues.service';
+import { CommonModule, DatePipe } from '@angular/common';
+import { Component, Input, OnInit, TemplateRef, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Issue } from '../../api/generated/projects'; 
-import { environment } from '../../../environments/environment';
-import { NgIconComponent, NgIconsModule, provideIcons } from '@ng-icons/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { bootstrapJournalPlus, bootstrapPencil, bootstrapTrash } from '@ng-icons/bootstrap-icons';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { environment } from '../../../environments/environment';
+import { Issue } from '../../api/generated/projects';
+import { IssuesService } from '../../api/generated/projects/api/issues.service';
 @Component({
   selector: 'app-issues',
   templateUrl: './issues.component.html',

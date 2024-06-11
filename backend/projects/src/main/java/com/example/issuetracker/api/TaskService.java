@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.example.issuetracker.entities.Project;
 import com.example.issuetracker.entities.Task;
 import com.example.issuetracker.mapper.TaskMapper;
-import com.example.issuetracker.rest.model.IssueStatusDTO;
 import com.example.issuetracker.rest.model.TaskDTO;
 import com.example.issuetracker.rest.model.TaskStatusDTO;
 

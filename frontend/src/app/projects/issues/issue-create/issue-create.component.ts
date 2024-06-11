@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Observable, switchMap } from 'rxjs';
 import { Issue, IssueStatus, IssuesService } from '../../../api/generated/projects';
 import { IssueFormComponent } from '../issue-form/issue-form.component';
-import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscriber, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-issue-create',
