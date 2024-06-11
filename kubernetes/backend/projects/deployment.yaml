@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: projects
+spec:
+  selector:
+    matchLabels:
+      run: projects
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: projects
+    spec:
+      containers:
+        - name: projects 
+          image: projects_service:latest
+          imagePullPolicy: Never
+          env:
+            - name: DB_HOST
+              value: db-service
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: db-cm
+                  key: PORT
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: db-cm
+                  key: POSTGRES_DB
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: POSTGRES_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: POSTGRES_PASSWORD
+          ports:
+            - containerPort: 8080
+
+          

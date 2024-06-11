@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+spec:
+  selector:
+    matchLabels:
+      run: db
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: db
+      name: db
+    spec:
+      containers:
+      - image: postgres:16.3-alpine3.19
+        name: db
+        envFrom:
+            - secretRef:
+                name: db-secret
+            - configMapRef:
+                name: db-cm
+        volumeMounts:
+          - mountPath: /var/lib/postgresql/data
+            name: local-pv-storage
+        ports:
+          - containerPort: 5432
+      volumes:
+        - name: local-pv-storage
+          persistentVolumeClaim:
+            claimName: local-storage-pvc
